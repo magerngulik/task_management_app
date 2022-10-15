@@ -1,0 +1,9 @@
+{
+    "modules": [
+        "welcome",
+        "login",
+        "navigator",
+        "dashboard",
+        "profile"
+    ]
+}

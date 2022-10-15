@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "973273716517",
+    "project_id": "wash-cars-fhe",
+    "storage_bucket": "wash-cars-fhe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:973273716517:android:7d82b1c9b7d7218467accc",
+        "android_client_info": {
+          "package_name": "com.example.car_wash_fhe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "973273716517-vviv50s6e7ojgh6e3avvp0pp1vdo46d3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.car_wash_fhe",
+            "certificate_hash": "32b02cf823a7e88c6f8afe065f35d827d4837661"
+          }
+        },
+        {
+          "client_id": "973273716517-p2d58qpen0g7k5bfajavu24vghf56u9g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChVTO2fqzfDR901dzDBFYYGYu4R4a2HVs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "973273716517-p2d58qpen0g7k5bfajavu24vghf56u9g.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "973273716517-qs8m090b86i0ker0jormprcddf2uhna4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.blankFireSetstate"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:973273716517:android:601e46955df00e4167accc",
+        "android_client_info": {
+          "package_name": "com.example.task_management_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "973273716517-p2d58qpen0g7k5bfajavu24vghf56u9g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChVTO2fqzfDR901dzDBFYYGYu4R4a2HVs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "973273716517-p2d58qpen0g7k5bfajavu24vghf56u9g.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "973273716517-qs8m090b86i0ker0jormprcddf2uhna4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.blankFireSetstate"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
