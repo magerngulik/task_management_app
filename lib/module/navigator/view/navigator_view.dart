@@ -22,13 +22,11 @@ class _NavigatorViewState extends ConsumerState<NavigatorView> {
       child: Scaffold(
         body: IndexedStack(
           index: selectedIndex,
-          children: [
-            const DashboardView(),
-            const TaskProjectListView(),
-            Container(
-              color: Colors.purple[100],
-            ),
-            const ProfileView()
+          children: const [
+            DashboardView(),
+            TaskProjectListView(),
+            TaskProjectRealView(),
+            ProfileView()
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
@@ -47,19 +45,19 @@ class _NavigatorViewState extends ConsumerState<NavigatorView> {
               ),
             ),
             BottomNavigationBarItem(
-              label: "Task Project",
+              label: "Task Personal",
               icon: Icon(
                 Icons.list_alt,
               ),
             ),
             BottomNavigationBarItem(
-              label: "Favorite",
+              label: "Task Project",
               icon: Icon(
-                Icons.favorite,
+                Icons.propane,
               ),
             ),
             BottomNavigationBarItem(
-              label: "Me",
+              label: "Profile",
               icon: Icon(
                 Icons.person,
               ),

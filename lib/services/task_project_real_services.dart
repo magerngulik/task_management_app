@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
-class TaskProjectService {
-  static deleteData(String id) async {
+class TaskProjectRealServices {
+  deleteTask(String id) async {
     try {
       await FirebaseFirestore.instance
-          .collection("personal_task")
+          .collection("project_task")
           .doc(id)
           .delete();
     } catch (e) {

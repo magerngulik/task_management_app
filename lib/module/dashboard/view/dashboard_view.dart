@@ -202,13 +202,18 @@ class DashboardView extends ConsumerWidget {
                         Map<String, dynamic> item =
                             (data.docs[index].data() as Map<String, dynamic>);
                         item["id"] = data.docs[index].id;
+                        var date = item["selected_date"]?.toDate();
+                        var dateline =
+                            "${date.day} - ${date.month} - ${date.year}";
                         return Padding(
-                          padding: const EdgeInsets.only(bottom: 10, top: 20),
+                          padding: const EdgeInsets.only(bottom: 10, top: 10),
                           child: CardPersonalTask(
                             title: "${item['title']}",
-                            description: " ${item['description']}",
+                            description: "${item['description']}",
                             iconDefault: Icons.menu,
                             deleteData: () {},
+                            dateline: dateline,
+                            statusDateline: true,
                           ),
                         );
                       },

@@ -16,8 +16,24 @@ class TaskProjectListView extends ConsumerWidget {
     return Scaffold(
       backgroundColor: CpWarna.Color2,
       appBar: AppBar(
-        centerTitle: true,
-        title: const Text('Task Project List'),
+        title: const Text('Task Personal'),
+        actions: [
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: ElevatedButton.icon(
+              icon: const Icon(Icons.add),
+              label: const Text("Tambah Task"),
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(24), // <-- Radius
+                ),
+              ),
+              onPressed: () {
+                Get.to(const AddTaskProjectView());
+              },
+            ),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -25,19 +41,6 @@ class TaskProjectListView extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ElevatedButton.icon(
-                icon: const Icon(Icons.add),
-                label: const Text("Tambah Task"),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blueGrey,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24), // <-- Radius
-                  ),
-                ),
-                onPressed: () {
-                  Get.to(const AddTaskProjectView());
-                },
-              ),
               Container(
                 height: 600.0,
                 width: double.infinity,
@@ -52,6 +55,7 @@ class TaskProjectListView extends ConsumerWidget {
                 child: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
                       .collection("personal_task")
+                      .orderBy('selected_date', descending: true)
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) return const Text("Error");
@@ -96,6 +100,13 @@ class TaskProjectListView extends ConsumerWidget {
                             (data.docs[index].data() as Map<String, dynamic>);
                         item["id"] = data.docs[index].id;
                         var id = data.docs[index].id;
+                        var date = item["selected_date"]?.toDate();
+                        var dateline =
+                            "${date.day} - ${date.month} - ${date.year}";
+                        var dateNow = DateTime.now();
+                        var hitung = date.day - dateNow.day;
+                        var dateInt = int.parse(hitung.toString());
+                        var status = dateInt <= -1 == false;
 
                         return Dismissible(
                           key: UniqueKey(),
@@ -151,9 +162,13 @@ class TaskProjectListView extends ConsumerWidget {
                             padding: const EdgeInsets.only(bottom: 10),
                             child: CardPersonalTask(
                               title: "${item['title']}",
-                              description: " ${item['description']}",
+                              description: "${item['description']}",
                               iconDefault: Icons.edit,
                               deleteData: () {},
+                              dateline: (status == false)
+                                  ? "Sudah lewat deteline"
+                                  : "Waktu tersisa ${hitung.toString()} hari",
+                              statusDateline: status,
                             ),
                           ),
                         );

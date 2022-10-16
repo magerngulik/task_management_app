@@ -1,6 +1,4 @@
 import 'package:fhe_template/core.dart';
-import 'package:fhe_template/shared/widget/datepicker/datepicker.dart';
-import 'package:fhe_template/shared/widget/textfield/textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -39,10 +37,11 @@ class AddTaskProjectView extends ConsumerWidget {
                   hintText: "-",
                   label: "Deskripsi",
                   textFieldType: TextFieldType.normal,
+                  maxLines: 4,
                   onChanged: (text) {
                     controller.description = text;
                   },
-                  size: 100),
+                  size: 50),
               ExDatePicker(
                   id: "date_line",
                   label: "Time Piker",
@@ -52,13 +51,81 @@ class AddTaskProjectView extends ConsumerWidget {
               const SizedBox(
                 height: 10.0,
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10.0),
-                child: Text(
-                  "List Task",
-                  style: TextStyle(
-                    fontSize: 15.0,
-                  ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Row(
+                  children: [
+                    const Text(
+                      "List Task",
+                      style: TextStyle(
+                        fontSize: 15.0,
+                      ),
+                    ),
+                    const Spacer(),
+                    ElevatedButton.icon(
+                      icon: const Icon(Icons.add),
+                      label: const Text("Tambah List"),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blueGrey,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24), // <-- Radius
+                        ),
+                      ),
+                      onPressed: () {
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return Column(
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(12),
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 20),
+                                    child: TextFormField(
+                                        decoration: const InputDecoration(
+                                          hintText: 'Title',
+                                          labelStyle: TextStyle(
+                                            color: Colors.blueGrey,
+                                          ),
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Colors.blueGrey,
+                                            ),
+                                          ),
+                                        ),
+                                        onChanged: (value) {
+                                          controller.tasklisttitle = value;
+                                        },
+                                        onSaved: (value) {
+                                          controller.tasklisttitle = value!;
+                                        }),
+                                  ),
+                                  ElevatedButton.icon(
+                                    icon: const Icon(Icons.add),
+                                    label: const Text("Tambah"),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.blueGrey,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            12), // <-- Radius
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      controller.taskProject.add({
+                                        "title": controller.tasklisttitle,
+                                        "status": false
+                                      });
+
+                                      controller.notifyListeners();
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            });
+                      },
+                    ),
+                  ],
                 ),
               ),
               Container(
@@ -76,17 +143,24 @@ class AddTaskProjectView extends ConsumerWidget {
                   itemCount: controller.taskProject.length,
                   itemBuilder: (BuildContext context, int index) {
                     var item = controller.taskProject[index];
+                    bool status = item['status'].toString() == 'true';
+                    // bool b = boolAsString == 'true';
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const SizedBox(
-                          width: 20.0,
+                          width: 10.0,
                         ),
-                        Text(
-                          "$item",
-                          style: const TextStyle(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold,
+                        Checkbox(value: false, onChanged: (value) {}),
+                        Expanded(
+                          child: Text(
+                            "${item['title']}",
+                            maxLines: 1,
+                            overflow: TextOverflow.fade,
+                            style: const TextStyle(
+                              fontSize: 18.0,
+                            ),
                           ),
                         ),
                         const Spacer(),
@@ -108,69 +182,6 @@ class AddTaskProjectView extends ConsumerWidget {
                     );
                   },
                 ),
-              ),
-              ElevatedButton.icon(
-                icon: const Icon(Icons.add),
-                label: const Text("Add"),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blueGrey,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24), // <-- Radius
-                  ),
-                ),
-                onPressed: () {
-                  // controller.taskProject.add("Number 5");
-                  // controller.notifyListeners();
-                  showModalBottomSheet(
-                      context: context,
-                      builder: (context) {
-                        return Column(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(12),
-                              margin:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: TextFormField(
-                                  decoration: const InputDecoration(
-                                    hintText: 'Title',
-                                    labelStyle: TextStyle(
-                                      color: Colors.blueGrey,
-                                    ),
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.blueGrey,
-                                      ),
-                                    ),
-                                  ),
-                                  onChanged: (value) {
-                                    controller.tasklisttitle = value;
-                                  },
-                                  onSaved: (value) {
-                                    controller.tasklisttitle = value!;
-                                  }),
-                            ),
-                            ElevatedButton.icon(
-                              icon: const Icon(Icons.add),
-                              label: const Text("Tambah"),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.blueGrey,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(12), // <-- Radius
-                                ),
-                              ),
-                              onPressed: () {
-                                controller.taskProject
-                                    .add(controller.tasklisttitle);
-
-                                controller.notifyListeners();
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
-                        );
-                      });
-                },
               ),
               const SizedBox(height: 20),
               SizedBox(

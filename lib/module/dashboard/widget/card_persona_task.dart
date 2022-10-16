@@ -5,14 +5,18 @@ import '../../../shared/collor_pallets.dart';
 class CardPersonalTask extends StatefulWidget {
   final String? title;
   final String? description;
+  final String? dateline;
   Function? deleteData;
   final IconData? iconDefault;
+  final bool? statusDateline;
 
   CardPersonalTask(
       {Key? key,
       required this.title,
       required this.description,
       required this.deleteData,
+      required this.dateline,
+      this.statusDateline,
       this.iconDefault})
       : super(key: key);
 
@@ -47,13 +51,38 @@ class _CardPersonalTaskState extends State<CardPersonalTask> {
               children: [
                 Text(
                   "${widget.title}",
-                  style: TextStyle(fontSize: 25.0, color: CpWarna.Color6),
+                  style: TextStyle(
+                      fontSize: 25.0,
+                      color: CpWarna.Color6,
+                      fontWeight: FontWeight.bold,
+                      decoration: (widget.statusDateline == true)
+                          ? TextDecoration.none
+                          : TextDecoration.lineThrough),
                 ),
                 Text(
                   "${widget.description}",
-                  maxLines: 2,
+                  maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 20.0, color: CpWarna.Color2),
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: CpWarna.Color2,
+                      decoration: (widget.statusDateline == true)
+                          ? TextDecoration.none
+                          : TextDecoration.lineThrough),
+                ),
+                const SizedBox(
+                  height: 5.0,
+                ),
+                Text(
+                  "${widget.dateline}",
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontSize: 15.0,
+                      color: CpWarna.Color5,
+                      fontWeight: FontWeight.bold,
+                      decoration: (widget.statusDateline == true)
+                          ? TextDecoration.none
+                          : TextDecoration.lineThrough),
                 ),
               ],
             ),
@@ -61,8 +90,12 @@ class _CardPersonalTaskState extends State<CardPersonalTask> {
           IconButton(
             onPressed: () => widget.deleteData,
             icon: Icon(
-              widget.iconDefault ?? Icons.menu,
+              (widget.statusDateline == true)
+                  ? widget.iconDefault ?? Icons.menu
+                  : Icons.disabled_by_default,
               size: 24.0,
+              color:
+                  (widget.statusDateline == true) ? Colors.black : Colors.red,
             ),
           ),
           const SizedBox(
