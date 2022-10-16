@@ -5,12 +5,16 @@ import '../../../shared/collor_pallets.dart';
 class CardPersonalTask extends StatefulWidget {
   final String? title;
   final String? description;
+  Function? deleteData;
+  final IconData? iconDefault;
 
-  const CardPersonalTask({
-    Key? key,
-    required this.title,
-    required this.description,
-  }) : super(key: key);
+  CardPersonalTask(
+      {Key? key,
+      required this.title,
+      required this.description,
+      required this.deleteData,
+      this.iconDefault})
+      : super(key: key);
 
   @override
   State<CardPersonalTask> createState() => _CardPersonalTaskState();
@@ -54,9 +58,12 @@ class _CardPersonalTaskState extends State<CardPersonalTask> {
               ],
             ),
           ),
-          const Icon(
-            Icons.menu,
-            size: 24.0,
+          IconButton(
+            onPressed: () => widget.deleteData,
+            icon: Icon(
+              widget.iconDefault ?? Icons.menu,
+              size: 24.0,
+            ),
           ),
           const SizedBox(
             width: 20.0,

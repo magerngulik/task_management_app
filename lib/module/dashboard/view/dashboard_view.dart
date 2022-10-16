@@ -1,10 +1,11 @@
-import 'package:fhe_template/module/dashboard/widget/card_persona_task.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fhe_template/shared/collor_pallets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../controller/dashboard_controller.dart';
+import '../widget/card_persona_task.dart';
 import '../widget/card_project.dart';
 
 class DashboardView extends ConsumerWidget {
@@ -173,21 +174,48 @@ class DashboardView extends ConsumerWidget {
                       fontWeight: FontWeight.bold,
                     )),
               ),
-              ListView.builder(
-                itemCount: 3,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  var item = {};
-                  return const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10.0),
-                    child: CardPersonalTask(
-                      title: "Portofolio Overview",
-                      description:
-                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+              Container(
+                height: 300,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: CpWarna.Color7,
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(
+                      16.0,
                     ),
-                  );
-                },
-              )
+                  ),
+                ),
+                child: StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection("personal_task")
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) return const Text("Error");
+                    if (snapshot.data == null) return Container();
+                    if (snapshot.data!.docs.isEmpty) {
+                      return const Center(child: Text("Belum ada data"));
+                    }
+                    final data = snapshot.data!;
+                    return ListView.builder(
+                      itemCount: data.docs.length,
+                      itemBuilder: (context, index) {
+                        Map<String, dynamic> item =
+                            (data.docs[index].data() as Map<String, dynamic>);
+                        item["id"] = data.docs[index].id;
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 10, top: 20),
+                          child: CardPersonalTask(
+                            title: "${item['title']}",
+                            description: " ${item['description']}",
+                            iconDefault: Icons.menu,
+                            deleteData: () {},
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
             ],
           ),
         ),

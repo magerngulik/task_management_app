@@ -128,7 +128,7 @@ class _ExTextFieldState extends State<ExTextField>
                 decoration: InputDecoration.collapsed(
                   hintText: widget.hintText,
                   hintStyle: TextStyle(
-                    fontSize: 10.0,
+                    fontSize: 20.0,
                     color: Colors.grey[400],
                   ),
                 ),
