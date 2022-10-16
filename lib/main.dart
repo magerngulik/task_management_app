@@ -1,16 +1,14 @@
-import 'package:fhe_template/riverpod_util.dart';
-import 'package:fhe_template/setup.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import './core.dart';
 
 void main() async {
   await initialize();
 
-  Widget mainView = Container();
-  if (FirebaseAuth.instance.currentUser != null) {
-    mainView = Container();
-  }
+  Widget mainView = const LoginView();
+  // if (FirebaseAuth.instance.currentUser != null) {
+  //   mainView = const LoginView();
+  // }
 
   runApp(
     ProviderScope(

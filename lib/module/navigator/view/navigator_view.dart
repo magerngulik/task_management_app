@@ -1,28 +1,70 @@
+import 'package:fhe_template/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../controller/navigator_controller.dart';
 
-class NavigatorView extends ConsumerWidget {
-  const NavigatorView({Key? key}) : super(key: key);
+class NavigatorView extends ConsumerStatefulWidget {
+  const NavigatorView({super.key});
 
   @override
-  Widget build(context, ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _NavigatorViewState();
+}
+
+class _NavigatorViewState extends ConsumerState<NavigatorView> {
+  int selectedIndex = 0;
+  @override
+  Widget build(BuildContext context) {
     NavigatorController controller = ref.watch(navigatorController);
-    controller.view = this;
-    
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('Navigator'),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: const [
-              //body
-            ],
-          ),
+    controller.view = widget;
+
+    return DefaultTabController(
+      length: 4,
+      initialIndex: selectedIndex,
+      child: Scaffold(
+        body: IndexedStack(
+          index: selectedIndex,
+          children: [
+            const DashboardView(),
+            const TaskProjectListView(),
+            Container(
+              color: Colors.purple[100],
+            ),
+            const ProfileView()
+          ],
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: selectedIndex,
+          selectedItemColor: Colors.red[700],
+          unselectedItemColor: Colors.grey[500],
+          onTap: (index) {
+            selectedIndex = index;
+            setState(() {});
+          },
+          items: const [
+            BottomNavigationBarItem(
+              label: "Home",
+              icon: Icon(
+                Icons.home,
+              ),
+            ),
+            BottomNavigationBarItem(
+              label: "Task Project",
+              icon: Icon(
+                Icons.list_alt,
+              ),
+            ),
+            BottomNavigationBarItem(
+              label: "Favorite",
+              icon: Icon(
+                Icons.favorite,
+              ),
+            ),
+            BottomNavigationBarItem(
+              label: "Me",
+              icon: Icon(
+                Icons.person,
+              ),
+            ),
+          ],
         ),
       ),
     );

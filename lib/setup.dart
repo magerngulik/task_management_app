@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 /*
-TODO: 
+
 Run this command if you don't already have firebase_options.dart
 flutterfire configure
 Docs: https://firebase.flutter.dev/docs/cli/

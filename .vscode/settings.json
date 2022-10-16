@@ -15,9 +15,4 @@
       "editor.wordBasedSuggestions": false,
       "editor.defaultFormatter": "Dart-Code.dart-code"
 },
-"workbench.colorCustomizations": {
-    "activityBar.background": "#21320B",
-    "titleBar.activeBackground": "#2E470F",
-    "titleBar.activeForeground": "#F7FCF1"
-},
 }

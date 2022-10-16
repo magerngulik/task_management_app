@@ -4,6 +4,8 @@
         "login",
         "navigator",
         "dashboard",
-        "profile"
+        "profile",
+        "task_project_list",
+        "add_task_project"
     ]
 }
