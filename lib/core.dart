@@ -7,10 +7,14 @@ export 'package:fhe_template/module/add_task_project/controller/add_task_project
 export 'package:fhe_template/module/add_task_project/view/add_task_project_view.dart';
 export 'package:fhe_template/module/add_task_project_real/controller/add_task_project_real_controller.dart';
 export 'package:fhe_template/module/add_task_project_real/view/add_task_project_real_view.dart';
+export 'package:fhe_template/module/add_task_project_real/widget/dropdown_task.dart';
+export 'package:fhe_template/module/add_task_project_real/widget/textfield_project_task_real.dart';
 export 'package:fhe_template/module/dashboard/controller/dashboard_controller.dart';
 export 'package:fhe_template/module/dashboard/view/dashboard_view.dart';
 export 'package:fhe_template/module/dashboard/widget/card_persona_task.dart';
 export 'package:fhe_template/module/dashboard/widget/card_project.dart';
+export 'package:fhe_template/module/detail_task/controller/detail_task_controller.dart';
+export 'package:fhe_template/module/detail_task/view/detail_task_view.dart';
 export 'package:fhe_template/module/login/controller/login_controller.dart';
 export 'package:fhe_template/module/login/view/login_view.dart';
 export 'package:fhe_template/module/login/widget/textfieldLogin.dart';
@@ -25,6 +29,7 @@ export 'package:fhe_template/module/task_project_real/view/task_project_real_vie
 export 'package:fhe_template/module/welcome/controller/welcome_controller.dart';
 export 'package:fhe_template/module/welcome/view/welcome_view.dart';
 export 'package:fhe_template/services/taskproject_services.dart';
+export 'package:fhe_template/services/task_project_real_services.dart';
 export 'package:fhe_template/services/user_services.dart';
 export 'package:fhe_template/shared/collor_pallets.dart';
 export 'package:fhe_template/shared/util/focus_helper/focus_helper.dart';
@@ -53,4 +58,4 @@ export 'package:fhe_template/shared/widget/textfield/searchfield.dart';
 export 'package:fhe_template/shared/widget/textfield/textarea.dart';
 export 'package:fhe_template/shared/widget/textfield/textfield.dart';
 export 'riverpod_util.dart';
-export 'package:fhe_template/setup.dart';
+export 'setup.dart';

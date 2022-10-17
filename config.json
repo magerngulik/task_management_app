@@ -8,6 +8,7 @@
         "task_project_list",
         "add_task_project",
         "task_project_real",
-        "add_task_project_real"
+        "add_task_project_real",
+        "detail_task"
     ]
 }

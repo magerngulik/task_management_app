@@ -12,4 +12,20 @@ class TaskProjectRealServices {
       debugPrint("Status: Gagal Delete");
     }
   }
+
+  static updateStatusTask(
+      {required String id, required int index, required bool status}) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection("project_task")
+          .doc(id)
+          .update({
+        "todo_list_project"[index]: {"status": status}
+      });
+    } catch (e) {
+      debugPrint("Status: Gagal Update ");
+    }
+  }
+
+  static addProjectTask() {}
 }

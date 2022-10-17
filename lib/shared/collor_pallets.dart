@@ -8,5 +8,6 @@ class CpWarna {
   static var Color5 = const Color(0xffF9525A);
   static var Color6 = const Color(0xff365A66);
   static var Color7 = const Color(0xffBCDCDE);
+  static var Color8 = const Color(0xffFCECDB);
 }
 // var Color = const Color(0xff);

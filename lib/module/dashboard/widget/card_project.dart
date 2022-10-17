@@ -64,6 +64,8 @@ class _CardProjectState extends State<CardProject> {
           ),
           Text(
             "${widget.title}",
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: const TextStyle(
               fontSize: 15.0,
             ),
@@ -83,6 +85,7 @@ class _CardProjectState extends State<CardProject> {
             children: [
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
+                  elevation: 0,
                   backgroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30), // <-- Radius

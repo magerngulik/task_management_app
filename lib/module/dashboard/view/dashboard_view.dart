@@ -1,12 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fhe_template/shared/collor_pallets.dart';
+import 'package:fhe_template/core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../controller/dashboard_controller.dart';
-import '../widget/card_persona_task.dart';
-import '../widget/card_project.dart';
 
 class DashboardView extends ConsumerWidget {
   const DashboardView({Key? key}) : super(key: key);
@@ -141,20 +138,51 @@ class DashboardView extends ConsumerWidget {
               const SizedBox(
                 height: 10.0,
               ),
-              SizedBox(
-                height: 180.0,
-                child: ListView.builder(
-                  itemCount: 10,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10.0),
-                      child: CardProject(
-                        image: "https://i.ibb.co/bzZcPcP/icon-computer.png",
-                        title: "Dashboard",
-                        description:
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                        jmlTask: "6",
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection("project_task")
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) return const Text("Error");
+                    if (snapshot.data == null) return Container();
+                    if (snapshot.data!.docs.isEmpty) {
+                      return const Text("No Data");
+                    }
+                    final data = snapshot.data!;
+                    return SizedBox(
+                      height: 180.0,
+                      child: ListView.builder(
+                        itemCount: data.docs.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          Map<String, dynamic> item =
+                              (data.docs[index].data() as Map<String, dynamic>);
+                          var jumlah = item['todo_list_project'].length;
+                          item["id"] = data.docs[index].id;
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => DetailTaskView(
+                                          item: item,
+                                        )),
+                              );
+                            },
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10.0),
+                              child: CardProject(
+                                image: "${item['img_category']}",
+                                title: "${item['id']}",
+                                description: "${item['description']}",
+                                jmlTask: "$jumlah",
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     );
                   },

@@ -220,7 +220,7 @@ class LoginView extends ConsumerWidget {
                     image: NetworkImage(
                       "https://i.ibb.co/19t3Fcp/icon-karakter-login.png",
                     ),
-                    fit: BoxFit.scaleDown,
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
