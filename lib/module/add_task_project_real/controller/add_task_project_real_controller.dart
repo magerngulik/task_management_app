@@ -47,7 +47,6 @@ class AddTaskProjectRealController extends ChangeNotifier
         "category": category,
         "img_category": imgCategory,
         "date_line": selectedDate,
-        "todo_list_project": taskProject,
       });
       Get.back();
     } catch (e) {

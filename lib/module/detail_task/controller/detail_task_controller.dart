@@ -5,6 +5,9 @@ import '../view/detail_task_view.dart';
 
 class DetailTaskController extends ChangeNotifier implements HyperController {
   DetailTaskView? view;
+  int total = 0;
+  int totalTaskComplete = 0;
+  String tasklisttitle = "";
 }
 
 final detailTaskController =

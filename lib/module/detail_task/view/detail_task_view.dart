@@ -14,7 +14,7 @@ class DetailTaskView extends ConsumerWidget {
   Widget build(context, ref) {
     DetailTaskController controller = ref.watch(detailTaskController);
     controller.view = this;
-    var jumlah = item!['todo_list_project'].length;
+    // var jumlah = item!['todo_list_project'].length;
     var time = item!['date_line'].toDate();
     var tmount =
         DateFormat.MMM().format((item!['date_line'] as Timestamp).toDate());
@@ -59,7 +59,7 @@ class DetailTaskView extends ConsumerWidget {
                     children: [
                       CardTask(
                         onChanged: (value) {},
-                        label: "$jumlah",
+                        label: "${controller.total}",
                         sublabel: "Task",
                       ),
                       const SizedBox(
@@ -67,7 +67,7 @@ class DetailTaskView extends ConsumerWidget {
                       ),
                       CardTask(
                         onChanged: (value) {},
-                        label: "50%",
+                        label: "${controller.totalTaskComplete}",
                         sublabel: "Complete",
                         fsSubLabel: 20,
                       ),
@@ -86,68 +86,139 @@ class DetailTaskView extends ConsumerWidget {
                   const SizedBox(
                     height: 10.0,
                   ),
-                  // Container(
-                  //   height: 460.0,
-                  //   decoration: const BoxDecoration(
-                  //     borderRadius: BorderRadius.all(
-                  //       Radius.circular(
-                  //         16.0,
-                  //       ),
-                  //     ),
-                  //   ),
-                  //   child: ListView.builder(
-                  //     itemCount: todo.length,
-                  //     shrinkWrap: true,
-                  //     itemBuilder: (context, index) {
-                  //       var itemTodo = todo[index] as Map;
-                  //       return InkWell(
-                  //         onTap: () {},
-                  //         child: Padding(
-                  //           padding: const EdgeInsets.only(left: 30.0),
-                  //           child: Row(
-                  //             children: [
-                  //               Container(
-                  //                 height: 40.0,
-                  //                 width: 300,
-                  //                 padding: const EdgeInsets.symmetric(
-                  //                     horizontal: 10.0),
-                  //                 decoration: BoxDecoration(
-                  //                   color: CpWarna.Color4,
-                  //                   borderRadius: const BorderRadius.all(
-                  //                     Radius.circular(
-                  //                       24.0,
-                  //                     ),
-                  //                   ),
-                  //                 ),
-                  //                 child: Center(
-                  //                   child: Text(
-                  //                     "${itemTodo['title']}",
-                  //                     style: const TextStyle(
-                  //                       fontSize: 18.0,
-                  //                     ),
-                  //                   ),
-                  //                 ),
-                  //               ),
-                  //               Checkbox(
-                  //                   value: itemTodo['status'],
-                  //                   onChanged: (value) {
-                  //                     TaskProjectRealServices.updateStatusTask(
-                  //                         id: item!['id'],
-                  //                         index: index,
-                  //                         status: value!);
-                  //                   })
-                  //             ],
-                  //           ),
-                  //         ),
-                  //       );
-                  //     },
-                  //   ),
-                  // ),
+                  SizedBox(
+                    height: 300,
+                    child: StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection("todo_list_project")
+                          .where("uid_task", isEqualTo: item!['id'])
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) return const Text("Error");
+                        if (snapshot.data == null) return Container();
+                        if (snapshot.data!.docs.isEmpty) {
+                          return const Center(
+                            child: Text(
+                              "Belum ada data yang di tambahkan",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          );
+                        }
+                        final data = snapshot.data!;
+
+                        return ListView.builder(
+                          itemCount: data.docs.length,
+                          itemBuilder: (context, index) {
+                            Map<String, dynamic> itemTask = (data.docs[index]
+                                .data() as Map<String, dynamic>);
+                            itemTask["id"] = data.docs[index].id;
+                            controller.total = data.docs.length;
+                            if (itemTask['status'].toString() == true) {
+                              controller.totalTaskComplete + 1;
+                            }
+
+                            return InkWell(
+                              onTap: () {},
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 30.0),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      height: 40.0,
+                                      width: 300,
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10.0),
+                                      decoration: BoxDecoration(
+                                        color: CpWarna.Color4,
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(
+                                            24.0,
+                                          ),
+                                        ),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          "${itemTask['title']}",
+                                          style: const TextStyle(
+                                            fontSize: 18.0,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Checkbox(
+                                        value: itemTask['status'],
+                                        onChanged: (value) {
+                                          TaskProjectRealServices
+                                              .updateStatusTask(
+                                                  itemTask["id"], value!);
+                                          controller.notifyListeners();
+                                        })
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return Column(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(12),
+                            margin: const EdgeInsets.symmetric(horizontal: 20),
+                            child: TextFormField(
+                                decoration: const InputDecoration(
+                                  hintText: 'Title',
+                                  labelStyle: TextStyle(
+                                    color: Colors.blueGrey,
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.blueGrey,
+                                    ),
+                                  ),
+                                ),
+                                onChanged: (value) {
+                                  controller.tasklisttitle = value;
+                                },
+                                onSaved: (value) {
+                                  controller.tasklisttitle = value!;
+                                }),
+                          ),
+                          ElevatedButton.icon(
+                            icon: const Icon(Icons.add),
+                            label: const Text("Tambah"),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blueGrey,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(12), // <-- Radius
+                              ),
+                            ),
+                            onPressed: () {
+                              TaskProjectRealServices.addProjectTask(
+                                  id: item!['id'],
+                                  title: controller.tasklisttitle);
+
+                              controller.notifyListeners();
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    });
+              },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: SizedBox(

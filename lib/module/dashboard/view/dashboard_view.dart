@@ -159,7 +159,7 @@ class DashboardView extends ConsumerWidget {
                         itemBuilder: (context, index) {
                           Map<String, dynamic> item =
                               (data.docs[index].data() as Map<String, dynamic>);
-                          var jumlah = item['todo_list_project'].length;
+                          // var jumlah = item['todo_list_project'].length;
                           item["id"] = data.docs[index].id;
                           return InkWell(
                             onTap: () {
@@ -178,7 +178,7 @@ class DashboardView extends ConsumerWidget {
                                 image: "${item['img_category']}",
                                 title: "${item['id']}",
                                 description: "${item['description']}",
-                                jmlTask: "$jumlah",
+                                jmlTask: "0",
                               ),
                             ),
                           );
